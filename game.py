@@ -18,19 +18,28 @@ ORANGE = (255, 119, 0)
 #FPS
 FRAMERATE = 30
 
+#screen dimensions
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+#start position
+START_X = SCREEN_WIDTH/2
+START_Y = SCREEN_HEIGHT/2
+
+HEAD_SIZE = 10
+
 clock = pygame.time.Clock()
 
+#gameover screen
 gameover_text = my_font.render("GAME OVER", False, RED)
 restart_text = my_font.render("Would you like to start a new game?", False, RED)
 yes_or_no_text = my_font.render("(Press Y for yes or N for n)", False, RED)
 
-game_display = pygame.display.set_mode((800, 600))
+#game window
+game_display = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("ssslitherrr")
 
-head_x = 300
-x_change = 0
-head_y = 200
-y_change = 0
+
 
 def restart_game():
        global game_over
@@ -39,12 +48,13 @@ def restart_game():
        global x_change
        global y_change
        game_over = False
-       head_x = 300
+       head_x = START_X
        x_change = 0
-       head_y = 200
+       head_y = START_Y
        y_change = 0
 
 #game loop
+restart_game()
 game_over = False
 game_exit = False
 paused = False
@@ -59,19 +69,19 @@ while not game_over and not game_exit:
                      #arrow keys for movement
                      if not paused:
                             if event.key == pygame.K_LEFT:
-                                   x_change = -3
+                                   x_change = -HEAD_SIZE
                                    y_change = 0
                                    print("left arrow button pressed")
                             elif event.key == pygame.K_RIGHT:
-                                   x_change = 3
+                                   x_change = HEAD_SIZE
                                    y_change = 0
                                    print("right arrow button pressed")
                             elif event.key == pygame.K_UP:
-                                   y_change = -3
+                                   y_change = -HEAD_SIZE
                                    x_change = 0
                                    print("up arrow button pressed")
                             elif event.key == pygame.K_DOWN:
-                                   y_change = 3
+                                   y_change = HEAD_SIZE
                                    x_change = 0
                                    print("down arrow button pressed")
                      #other keys for game controls
@@ -95,12 +105,12 @@ while not game_over and not game_exit:
        head_y = head_y + y_change
        
        #if the head hits the edges, game over
-       if head_x <=0 or head_x >= 800 or head_y <= 0 or head_y >= 600:
+       if head_x <=0 or head_x >= SCREEN_WIDTH or head_y <= 0 or head_y >= SCREEN_HEIGHT:
               game_over = True
        
        #draws
        game_display.fill(WHITE)
-       pygame.draw.rect(game_display, GREEN, [head_x, head_y, 10, 10])
+       pygame.draw.rect(game_display, GREEN, [head_x, head_y, HEAD_SIZE, HEAD_SIZE])
        pygame.display.update()
        clock.tick(FRAMERATE)
 
